@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>Commande Produit</title>
+  <style>
+    /* التنسيق الخاص بك هنا */
+  </style>
+</head>
+<body>
+  <form id="orderForm" action="submit_order.php" method="POST">
+    <table>
+      <tr>
+        <td rowspan="6">
+          <img id="product-image" src="" alt="Product Image">
+        </td>
+        <td>Seller:</td>
+        <td><input type="text" name="seller" value="mirror's world" readonly></td>
+      </tr>
+      <tr>
+        <td>Price:</td>
+        <td><input type="text" id="product-price" name="price" readonly></td>
+      </tr>
+      <tr>
+        <td>Reference:</td>
+        <td><input type="text" name="reference" value="REF123456" readonly></td>
+      </tr>
+      <tr>
+        <td>Color:</td>
+        <td>
+          <label><input type="checkbox" name="color[]" value="yellow">yellow</label>
+          <label><input type="checkbox" name="color[]" value="white">white</label>
+          <label><input type="checkbox" name="color[]" value="bleu">bleu</label>
+        </td>
+      </tr>
+      <tr>
+        <td>Quantity:</td>
+        <td>
+          <select name="quantity">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <input type="submit" value="Place Order">
+        </td>
+      </tr>
+    </table>
+  </form>
+
+  <!-- ✅ JavaScript -->
+  <script>
+    // جلب بيانات المنتج من localStorage
+    const product = JSON.parse(localStorage.getItem('orderProduct'));
+
+    // التحقق من وجود المنتج
+    if (product) {
+      document.getElementById('product-image').src = product.image;
+      document.getElementById('product-price').value = product.price;
+    } else {
+      alert("No product selected.");
+      window.location.href = 'index.html'; // إعادة التوجيه إلى الصفحة الرئيسية إذا لم يتم تحديد المنتج
+    }
+
+    document.getElementById('orderForm').addEventListener('submit', function(event) {
+      const colors = document.querySelectorAll('input[name="color[]"]:checked');
+      if (colors.length === 0) {
+        alert("Please select at least one color.");
+        event.preventDefault(); // إلغاء الإرسال
+        return;
+      }
+
+      const seller = document.querySelector('input[name="seller"]').value;
+      const price = document.querySelector('input[name="price"]').value;
+      const reference = document.querySelector('input[name="reference"]').value;
+      const quantity = document.querySelector('select[name="quantity"]').value;
+      const selectedColors = Array.from(colors).map(cb => cb.value).join(", ");
+
+      const confirmMsg = `
+Confirm your order:
+-----------------------
+Seller: ${seller}
+Price: ${price}
+Reference: ${reference}
+Colors: ${selectedColors}
+Quantity: ${quantity}
+      `.trim();
+
+      if (!confirm(confirmMsg)) {
+        event.preventDefault(); // إلغاء الإرسال إذا ضغط المستخدم على إلغاء
+      }
+    });
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>All Mirrors</title>
+  <style>
+    /* يمكنك إضافة التنسيق الخاص بك هنا */
+  </style>
+</head>
+<body>
+
+<h2>🪞 All Mirrors</h2>
+<div id="cart-display"></div>
+<a href="cart.html">عرض السلة 🛒</a>
+
+<div class="grid">
+  <!-- Salon Mirrors -->
+  <div class="product">
+    <img src="poo.jpg">
+    <div class="product-name">Salon Mirror 1</div>
+    <div class="product-price">7900 DA</div>
+    <button onclick="goToOrderPage('Salon Mirror 1', 7900, 'poo.jpg')">إتمام الطلب</button>
+  </div>
+  <!-- يمكنك تكرار المنتجات هنا بالطريقة نفسها -->
+</div>
+
+<script>
+  function loadCart() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    document.getElementById("cart-display").innerText = `🛒 Items in Cart: ${cart.length}`;
+  }
+
+  function goToOrderPage(name, price, image) {
+    localStorage.setItem('orderProduct', JSON.stringify({ name, price, image }));
+    window.location.href = 'order.html'; // انتقل إلى صفحة إتمام الطلب
+  }
+
+  window.onload = loadCart;
+</script>
+
+</body>
+</html>
+

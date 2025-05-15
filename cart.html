@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>السلة 🛒</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      text-align: center;
+      padding: 40px;
+    }
+
+    h1 {
+      color: #9f2c5e;
+    }
+
+    .cart {
+      margin: 30px auto;
+      max-width: 600px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .item {
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      font-size: 16px;
+    }
+
+    .total {
+      font-weight: bold;
+      margin-top: 20px;
+      color: #333;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #9f2c5e;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    .back:hover {
+      background-color: #7c234b;
+    }
+
+    .empty {
+      color: gray;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🛒 محتويات السلة</h1>
+
+  <div class="cart" id="cart-content">
+    <!-- العناصر ستظهر هنا -->
+  </div>
+
+  <a href="index.html" class="back">⬅️ العودة للصفحة الرئيسية</a>
+
+  <script>
+    const cartDiv = document.getElementById("cart-content");
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    if (cart.length === 0) {
+      cartDiv.innerHTML = "<p class='empty'>السلة فارغة</p>";
+    } else {
+      let total = 0;
+      cart.forEach(item => {
+        total += Number(item.price);
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `<span>${item.name}</span><span>${item.price} DA</span>`;
+        cartDiv.appendChild(div);
+      });
+
+      const totalDiv = document.createElement("div");
+      totalDiv.className = "total";
+      totalDiv.innerText = `الإجمالي: ${total} DA`;
+      cartDiv.appendChild(totalDiv);
+    }
+  </script>
+
+</body>
+</html>
